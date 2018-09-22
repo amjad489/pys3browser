@@ -1,0 +1,261 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Simple S3 GUI</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.1/examples/starter-template/starter-template.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/placeholder-loading.min.css">
+</head>
+
+<body>
+
+<nav class="navbar shadow navbar-expand-md navbar-dark fixed-top" style="background-color: #6200E2;">
+    <a class="navbar-brand" href="#"><i class="fab fa-aws"></i> S3 GUI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" onClick="window.location.reload()"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li>
+                <a class="nav-link" href="#"  data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-exchange-alt"></i> Switch Bucket</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#"  data-toggle="modal" data-target="#uploadModalCenter"><i class="fas fa-upload"></i> Upload</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input id="search-field" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <a class="btn btn-outline-light text-light my-2 my-sm-0" id="search">Search</a>
+        </form>
+    </div>
+</nav>
+
+<main role="main" class="container">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Please provide all the details.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/saveConfig" class="needs-validation p-3 mb-5 rounded" novalidate>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom01">AWS Access Key</label>
+                <input type="text" class="form-control" name="accesskey" id="validationCustom01" required>
+                <div class="invalid-feedback">
+                    Access key required to configure!.
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">AWS secret Key</label>
+                <input type="text" class="form-control" name="secretkey" id="validationCustom02" required>
+                <div class="invalid-feedback">
+                    Secret key required to configure!.
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustomUsername">Bucket Name</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="bucketname" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        S3 Bucket Name required to configure!.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success" type="submit">Save changes</button>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="modal fade" id="uploadModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Please select the file to upload.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="/uploadFile" method="POST" enctype="multipart/form-data">
+
+        <span class="control-fileupload">
+  <label for="fileInput">Choose a file :</label>
+  <input type="file" id="fileInput" name="fileInput">
+            <button type="submit" class="btn btn-success"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+
+        </span></form>
+
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="main-row">
+
+        <div class="card shadow border-light mb-3" ><div class="card-header">
+            <h10 class="card-title">Bucket Name: <span id="show-bucket-name" class="badge badge-pill badge-danger">{{ bucketname }}</span></h10>
+            <div class="btn-group float-right" role="group" ><a id="back-button" class="btn btn-outline-warning" disabled><i class="fas fa-chevron-left"></i> Back</a></div></h5>
+        </div>
+            <div class="card-body text-dark">
+                <div id="initial-row">
+                    <div class="ph-item">
+    <div class="ph-col-12">
+
+        <div class="ph-row">
+            <div class="ph-col-4 big"></div>
+            <div class="ph-col-2 empty"></div>
+            <div class="ph-col-4 big"></div>
+            <div class="ph-col-2 empty"></div>
+            <div class="ph-col-4 big"></div>
+            <div class="ph-col-2 empty"></div>
+            <div class="ph-col-12"></div>
+            <div class="ph-col-12"></div>
+            <div class="ph-col-12"></div>
+            <div class="ph-col-12"></div>
+            <div class="ph-col-12"></div>
+            <div class="ph-col-12"></div>
+        </div>
+    </div>
+</div>
+                </div>
+             </div>
+        </div>
+    </div>
+
+</main><!-- /.container -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+<script src="https://getbootstrap.com/docs/4.1/dist/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: '/browse_root',
+            //type: "POST",
+            success: function (data) {
+               $("#initial-row").html(data);
+            }
+        });
+        $(document).on("click","button", function(){
+            console.log($(this).attr('id'));
+            $.ajax({
+                url: '/browse_further',
+                type: "POST",
+                data: {
+                    s3path: $(this).attr('id')
+                },
+                success: function (data) {
+                    $("#back-button").removeAttr("disabled");
+                    $("#initial-row").html(data);
+                }
+            })
+        });
+        $(document).on("click","#search", function(){
+            // console.log("Clicked.");
+            //alert($("#search-field").val());
+            $.ajax({
+                url: 'search.php',
+                type: "POST",
+                data: {
+                    s3path: $("#search-field").val()
+                },
+                success: function (data) {
+                    $("#back-button").removeAttr("disabled");
+                    $("#initial-row").html(data);
+                }
+            })
+        });
+        function RemoveLastDirectoryPartOf(the_url)
+        {
+            var the_arr = the_url.split('/');
+            the_arr.pop();
+            the_arr.pop();
+            return( the_arr.join('/') + "/" );
+        }
+        $(document).on("click","#back-button", function(){
+            var back_path = RemoveLastDirectoryPartOf($("#back-button-path").text());
+            console.log(back_path);
+            if ( back_path === "/"){
+                $.ajax({
+                    url: '/browse_root',
+                    success: function (data) {
+                        $("#initial-row").html(data);
+                    }
+                });
+            }
+            else {
+                console.log(back_path);
+                $.ajax({
+                    url: '/browse_further',
+                    type: "POST",
+                    data: {
+                        s3path: back_path
+                    },
+                    success: function (data) {
+                        $("#back-button").removeAttr("disabled");
+                        $("#initial-row").html(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+</body>
+</html>
