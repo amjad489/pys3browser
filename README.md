@@ -6,3 +6,22 @@ Simple web based interface for browsing AWS S3 buckets on web browser. Since I c
 - Python-Flask
 - Bootstrap
 - Jquery
+
+## Python Dependencies
+
+- Flask
+- boto3
+- humanfriendly
+
+ 
+# Installation
+```bash
+pip install -r requirements
+```
+
+## Pull Request
+If you want to contribute.
+
+## Support
+
+[GitHub issues](https://github.com/amjad489/pys3browser/issues) for bug reports and new feature requests.
