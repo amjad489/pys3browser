@@ -60,6 +60,7 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/

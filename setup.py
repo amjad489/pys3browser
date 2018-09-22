@@ -3,7 +3,8 @@ from setuptools import setup
 setup(
     name='pys3browser',
     version='1.0.0',
-    packages=['flask', 'humanfriendly', 'boto3'],
+    packages=['pys3browser'],
+    install_requires=['Flask', 'humanfriendly', 'boto3'],
     url='https://github.com/amjad489/pys3browser',
     license='',
     author='amjad489',
