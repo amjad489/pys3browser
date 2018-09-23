@@ -17,12 +17,12 @@ Simple web based interface for browsing AWS S3 buckets on web browser. Since I c
 # Installation
 ## Clone repo
 ```bash
-$git clone https://github.com/amjad489/pys3browser.git
+$ git clone https://github.com/amjad489/pys3browser.git
 ```
 ## Install dependencies
 ```bash
 cd pys3browser
-$pip install -r requirements
+$ pip install -r requirements
 ```
 ## Run
 ```bash
