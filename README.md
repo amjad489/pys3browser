@@ -15,9 +15,27 @@ Simple web based interface for browsing AWS S3 buckets on web browser. Since I c
 
  
 # Installation
+## Clone repo
 ```bash
-pip install -r requirements
+$git clone https://github.com/amjad489/pys3browser.git
 ```
+## Install dependencies
+```bash
+cd pys3browser
+$pip install -r requirements
+```
+## Run
+```bash
+$ python app.py                  
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: Do not use the development server in a production environment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+2018-09-23 14:01:54,639 werkzeug _log():88 INFO      * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+
+```
+Launch browser and access http://localhost:5000/
 
 ## Pull Request
 If you want to contribute.
