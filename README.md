@@ -38,7 +38,7 @@ $ python app.py
 Launch browser and access http://localhost:5000/
 
 ## Pull Request
-If you want to contribute.
+If you want to contribute. Open a [pull request](https://github.com/amjad489/pys3browser/pulls)
 
 ## Support
 
