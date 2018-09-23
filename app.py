@@ -5,6 +5,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 import ConfigParser
+import re
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
@@ -35,6 +36,31 @@ def validate_config_file():
         config.set('credentials', 's3_bucket_name', '')
         with open(config_file, 'wb') as cfg_file:
             config.write(cfg_file)
+
+
+def get_fa_icon(_s3_key):
+    _s3_filename, _s3_file_extension = os.path.splitext(_s3_key)
+    if re.search(r'(gz|zip|bz2|7z|tar|nar|jar|war|ear)', _s3_file_extension):
+        return "<i class=\"far fa-file-archive\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(json|xml|py|pyc|javac|java|pl|asp|js|html|yml|yaml)', _s3_file_extension):
+        return "<i class=\"far fa-file-code\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(xls|xlsx)', _s3_file_extension):
+        return "<i class=\"far fa-file-excel\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(doc|docx)', _s3_file_extension):
+        return "<i class=\"far fa-file-word\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(ppt|pptx)', _s3_file_extension):
+        return "<i class=\"far fa-file-image\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(txt)', _s3_file_extension):
+        return "<i class=\"far fa-file-alt\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(pdf)', _s3_file_extension):
+        return "<i class=\"far fa-file-pdf\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(css)', _s3_file_extension):
+        return "<i class=\"fab fa-css3\"></i>" + " " + _s3_filename + _s3_file_extension
+    elif re.search(r'(js)', _s3_file_extension):
+        return "<i class=\"fab fa-node-js\"></i>" + " " + _s3_filename + _s3_file_extension
+
+    else:
+        return "<i class=\"far fa-file\"></i>" + " " + _s3_filename + _s3_file_extension
 
 
 def upload_file_to_s3(s3_file, bucket_name):
@@ -83,8 +109,8 @@ def browse_root():
         if "Contents" in response:
             for s3_Key in response["Contents"]:
                 yield "<tr><td><p class='text-left'>" \
-                      "<button id='" + s3_Key['Key'] + "' class='btn btn-link' > <i class='far fa-file'></i> " + \
-                      s3_Key['Key'] + "</button></p></td><td>" + \
+                      "<button id='" + s3_Key['Key'] + "' class='btn btn-link' >" + get_fa_icon(s3_Key['Key']) + \
+                      "</button></p></td><td>" + \
                       humanfriendly.format_size(s3_Key['Size']) + "</td><td>" + \
                       s3_Key['LastModified'].strftime("%Y-%m-%d %H:%M:%S %Z") + "</td></tr>"
         yield "</tbody></table></p>"
@@ -122,8 +148,7 @@ def browse_further():
                 if response["Prefix"] != s3_Key['Key']:
                     file_p = s3_Key['Key'].split('/')[-1]
                     yield "<tr><td><p class='text-left'>" \
-                          "<button id='" + s3_Key['Key'] + "' class='btn btn-link' ><i class='far fa-file'></i> " + \
-                          file_p + "</button></p></td><td>" + \
+                          "<button id='" + s3_Key['Key'] + "' class='btn btn-link' >" + get_fa_icon(file_p) + "</button></p></td><td>" + \
                           humanfriendly.format_size(s3_Key['Size']) + "</td><td>" + \
                           s3_Key['LastModified'].strftime("%Y-%m-%d %H:%M:%S %Z") + "</td></tr>"
         yield "</tbody></table></p>"
