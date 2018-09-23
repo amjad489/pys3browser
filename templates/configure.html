@@ -36,7 +36,10 @@
 <div class="container">
 
     <form method="post" action="/saveConfig" class="needs-validation shadow-lg p-3 mb-5 bg-white rounded" novalidate>
-        <h5>Please fill out all the fields</h5><hr>
+        <h5>Configure S3 credentials.</h5><hr>
+        <p>
+            Provide the IAM user which has access to S3 bucket. For more details on creating user <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html" target="_blank">click here</a>
+        </p>
         <div class="form-row">
             <div class="col-md-4 mb-3">
                 <label for="validationCustom01">AWS Access Key</label>
